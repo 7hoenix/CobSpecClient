@@ -1,10 +1,10 @@
 package CobSpecApp;
 
-import HTTPServer.ConnectionManager;
-import HTTPServer.Handler;
-import HTTPServer.Repository;
-import HTTPServer.Router;
-import HTTPServer.WrappedServerSocket;
+import server.ConnectionManager;
+import server.Handler;
+import server.Repository;
+import server.Router;
+import server.WrappedServerSocket;
 import junit.framework.TestCase;
 
 import java.net.ServerSocket;
@@ -17,7 +17,7 @@ public class CobSpecClientTest extends TestCase {
         ArrayList<String> log = new ArrayList<>();
         Handler handler = CobSpecRoutes.generate(new Router(), dataStore);
         ServerSocket serverSocket = new ServerSocket(settings.getPort());
-        ConnectionManager serverConnection = new WrappedServerSocket(serverSocket, handler, log);
+        ConnectionManager serverConnection = new WrappedServerSocket(serverSocket, handler);
         MockServer server = new MockServer(serverConnection);
         CobSpecClient client = new CobSpecClient(server);
 
@@ -26,7 +26,7 @@ public class CobSpecClientTest extends TestCase {
         assertEquals(server.isListening(), true);
     }
 
-    private class MockServer extends HTTPServer.Server {
+    private class MockServer extends server.Server {
         private boolean listening = false;
 
         public MockServer(ConnectionManager serverConnection) {

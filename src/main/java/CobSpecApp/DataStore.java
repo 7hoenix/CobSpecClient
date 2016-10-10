@@ -1,6 +1,6 @@
 package CobSpecApp;
 
-import HTTPServer.Repository;
+import server.Repository;
 
 import java.util.HashMap;
 
@@ -8,7 +8,7 @@ public class DataStore implements Repository {
     private HashMap<String, String> dataBank;
 
     public DataStore() {
-        this.dataBank = new HashMap();
+        this.dataBank = new HashMap<>();
     }
 
     public void store(String key, String value) {

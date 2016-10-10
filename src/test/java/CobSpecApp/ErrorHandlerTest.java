@@ -1,7 +1,7 @@
 package CobSpecApp;
 
-import HTTPServer.Request;
-import HTTPServer.Response;
+import server.Request;
+import server.Response;
 import junit.framework.TestCase;
 
 public class ErrorHandlerTest extends TestCase {

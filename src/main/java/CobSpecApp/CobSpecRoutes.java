@@ -1,8 +1,8 @@
 package CobSpecApp;
 
-import HTTPServer.Handler;
-import HTTPServer.Repository;
-import HTTPServer.Router;
+import server.Handler;
+import server.Repository;
+import server.Router;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,7 @@ public class CobSpecRoutes {
     }
 
     private static Map<String, String> getRedirects() {
-        Map redirections = new HashMap<String, String>();
+        Map<String, String> redirections = new HashMap<>();
         redirections.put("/redirect", "http://localhost:5000/");
         return redirections;
     }
