@@ -1,15 +1,15 @@
 package CobSpecApp;
 
-import HTTPServer.ApplicationBuilder;
-import HTTPServer.ConnectionManager;
-import HTTPServer.Handler;
-import HTTPServer.Middlewares.AuthorizationHandler;
-import HTTPServer.Middlewares.LogHandler;
-import HTTPServer.Middlewares.StaticFileHandler;
-import HTTPServer.Repository;
-import HTTPServer.Router;
-import HTTPServer.Server;
-import HTTPServer.WrappedServerSocket;
+import server.ApplicationBuilder;
+import server.ConnectionManager;
+import server.Handler;
+import server.middlewares.WrapBasicAuth;
+import server.middlewares.WrapRequestLog;
+import server.middlewares.WrapServeStaticFiles;
+import server.Repository;
+import server.Router;
+import server.Server;
+import server.WrappedServerSocket;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -22,21 +22,21 @@ public class CobSpecClient {
         Settings settings = new Settings(args);
         Repository dataStore = new DataStore();
         ArrayList<String> log = new ArrayList<>();
-        Handler application = ApplicationBuilder.handler(
+        Handler application = ApplicationBuilder.setHandler(
                 CobSpecRoutes.generate(new Router(), dataStore))
-                .use(new LogHandler()
+                .use(new WrapRequestLog()
                         .setLog(log))
-                .use(new AuthorizationHandler()
+                .use(new WrapBasicAuth()
                         .setUserName("admin")
                         .setPassword("hunter2")
                         .setRealm("jphoenx personal server")
                         .setProtectedRoutes(new String[] {"/logs"}))
-                .use(new StaticFileHandler()
+                .use(new WrapServeStaticFiles()
                         .setPublicDirectory(settings.getRoot())
                         .setAutoIndex(settings.getAutoIndex()))
                 .build();
         ServerSocket serverSocket = new ServerSocket(settings.getPort());
-        ConnectionManager serverConnection = new WrappedServerSocket(serverSocket, application, log);
+        ConnectionManager serverConnection = new WrappedServerSocket(serverSocket, application);
         Server server = new Server(serverConnection);
         CobSpecClient client = new CobSpecClient(server);
         client.run();

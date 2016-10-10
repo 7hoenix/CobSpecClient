@@ -1,9 +1,9 @@
 package CobSpecApp;
 
-import HTTPServer.Handler;
-import HTTPServer.Request;
-import HTTPServer.Response;
-import HTTPServer.Utils.HandlerUtils;
+import server.Handler;
+import server.Request;
+import server.Response;
+import server.utils.HandlerUtils;
 
 import java.io.IOException;
 import java.util.Map;
